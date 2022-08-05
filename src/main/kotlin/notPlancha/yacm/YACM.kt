@@ -1,10 +1,11 @@
-package example.examplemod
+package notPlancha.yacm
 
-import example.examplemod.block.ModBlocks
+import notPlancha.yacm.itens.ModBlocks
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
+import notPlancha.yacm.itens.ModItens
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -18,19 +19,16 @@ import thedarkcolour.kotlinforforge.forge.runForDist
  *
  * An example for blocks is in the `blocks` package of this mod.
  */
-@Mod(ExampleMod.ID)
-object ExampleMod {
-    const val ID = "examplemod"
+@Mod(YACM.ID)
+object YACM {
+    const val ID = "YetAnotherCurrencyMod"
 
-    // the logger for our mod
     val LOGGER: Logger = LogManager.getLogger(ID)
 
     init {
         LOGGER.log(Level.INFO, "Hello world!")
-
-        // Register the KDeferredRegister to the mod-specific event bus
         ModBlocks.REGISTRY.register(MOD_BUS)
-
+        ModItens.REGISTRY.register(MOD_BUS)
         val obj = runForDist(
             clientTarget = {
                 MOD_BUS.addListener(::onClientSetup)
@@ -39,8 +37,8 @@ object ExampleMod {
             serverTarget = {
                 MOD_BUS.addListener(::onServerSetup)
                 "test"
-            })
-
+            }
+        )
         println(obj)
     }
 

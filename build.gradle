@@ -1,6 +1,8 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = "https://maven.parchmentmc.org"}
+
         mavenCentral()
     }
     dependencies {
@@ -9,23 +11,25 @@ buildscript {
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
         // OPTIONAL Gradle plugin for Kotlin Serialization
         classpath 'org.jetbrains.kotlin:kotlin-serialization:1.6.10'
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'kotlin'
 apply plugin: 'kotlinx-serialization'
 
 apply from: 'https://raw.githubusercontent.com/thedarkcolour/KotlinForForge/site/thedarkcolour/kotlinforforge/gradle/kff-3.1.0.gradle'
 
-version = '1.0.0'
-group = 'example.examplemod'
-archivesBaseName = 'examplemod'
+version = '0.0.1'
+group = 'notPlancha.yacm'
+archivesBaseName = 'yacm'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     // Change to your preferred mappings
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'parchment', version: '2022.07.17-1.18.2'
     // Add your AccessTransformer
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -76,9 +80,34 @@ minecraft {
 // Include assets and data from data generators
 sourceSets.main.resources { srcDirs 'src/generated/resources/' }
 
+repositories {
+    maven {
+        // Curseforge mods
+        name "Wyn Price's Curse Maven"
+        // api "curse.maven:<descriptor>-<projectid>:<fileids>"
+        // projectid - on curseforgepage of mod
+        // fileids - on curseforge file url
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        // location of the maven that hosts JEI files
+        name "Progwml6 maven"
+        url "https://dvs1.progwml6.com/files/maven/"
+    }
+}
+
 dependencies {
     // Use the latest version of Minecraft Forge
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.4'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.68'
+    // JEI
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+
+    // theoneprobe-1.18-5.1.0.jar
+    implementation fg.deobf("curse.maven:the-one-probe-245211:3671753")
 }
 
 compileKotlin {
@@ -88,12 +117,12 @@ compileKotlin {
 jar {
     manifest {
         attributes([
-                'Specification-Title': "examplemod",
-                'Specification-Vendor': "examplemodsareus",
+                'Specification-Title': "yamc",
+                'Specification-Vendor': "notPlancha",
                 'Specification-Version': "1", // We are version 1 of ourselves
                 'Implementation-Title': project.name,
                 'Implementation-Version': project.version,
-                'Implementation-Vendor' :"examplemodsareus",
+                'Implementation-Vendor' :"notPlancha",
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

@@ -6,23 +6,25 @@ loaderVersion="[3,)" # Require at least 3.x
 license='LGPL'
 
 [[mods]]
-modId="examplemod"
+#TODO finish this
+modId="yacm"
 version="${file.jarVersion}"
-displayName="ExampleMod"
-credits="The ExampleMod dev team"
-authors="ExampleModAuthor"
+displayName="YACM"
+credits="notPlancha"
+authors="notPlancha"
 description='''
-Example mod that uses Kotlin for Forge.
+Yet Another Currency Mod
 '''
-[[dependencies.examplemod]]
+updateJSONURL= "" #TODO
+[[dependencies.yacm]]
     modId="forge"
     mandatory=true
     versionRange="[39,)"
     ordering="NONE"
     side="BOTH"
-[[dependencies.examplemod]]
+[[dependencies.yacm]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.1]"
+    versionRange="[1.18, 1.19)" #tested only on 1.18.2
     ordering="NONE"
     side="BOTH"
